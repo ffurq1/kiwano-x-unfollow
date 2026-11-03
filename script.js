@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Kiwano - X Unfollow Assistant
 // @namespace    https://github.com/furkvn7/kiwano-x-unfollow
-// @version      1.0.0
+// @version      1.1.0
 // @description  X (Twitter) üzerinde sizi geri takip etmeyen hesapları güvenli şekilde takipten çıkarmanızı sağlayan kullanıcı betiği.
 // @author       furkvn7
 // @match        https://x.com/*
@@ -20,6 +20,135 @@
     const LEGACY_HEADER_WL = "#XFB_WHITELIST_V1";
 
     const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
+
+    const i18n = {
+        tr: {
+            settingsTitle: 'Ayarlar',
+            themeColor: 'Tema Rengi',
+            language: 'Arayüz Dili',
+            showBadges: '"Çıkarıldı" Rozetlerini Göster',
+            statsResetTitle: '24 Saatlik Sayaç Hafızası',
+            resetHistoryBtn: 'Geçmişi Sıfırla',
+            close: 'Kapat',
+            skipVerified: 'Mavi Tikli Hesapları Atla',
+            stopUserLabel: 'Bu kullanıcıya gelince dur (@ ile)',
+            stopUserTooltip: 'Listenin en üstünden aşağı doğru tarar. Bu kullanıcı adını gördüğünde durur ve daha eski takip ettiklerinize dokunmaz.',
+            limitLabel: 'Çıkarma Limiti',
+            speedLabel: 'İşlem Hızı',
+            speedNormal: 'Normal (Güvenli)',
+            speedFast: 'Hızlı',
+            speedTurbo: 'Turbo',
+            start: 'Başlat',
+            stop: 'İşlemi Durdur',
+            ready: 'Hazır',
+            whitelistTitle: 'Beyaz Liste (Korunanlar)',
+            blacklistTitle: 'Kara Liste (Çıkarılanlar)',
+            add: 'Ekle',
+            remove: 'Sil',
+            upload: 'Yükle',
+            download: 'İndir',
+            reset: 'Sıfırla',
+            inList: 'Listede',
+            badgeText: 'Çıkarıldı',
+            confirmTitle: 'İşlem Onayı',
+            cancel: 'İptal',
+            confirm: 'Onayla',
+            modalNotice: 'İşlemin kesintisiz sürmesi için: <ul style="margin: 8px 0 0 16px; padding: 0;"><li>Takip Edilenler sayfasında kalın.</li><li>Sekmeyi simge durumuna küçültmeyin.</li><li>İşlem bitene kadar sayfada gezinmeyin.</li></ul>',
+            riskTitle: 'Limit Uyarısı',
+            riskNotice: 'Son 24 saat içindeki işlemlerle birlikte toplam <b>{count}</b> hesabı takipten çıkarmak üzeresiniz. Günlük önerilen güvenli sınır genellikle 200\'dür.<br><br>Bu sınırı aşmak hesabınızın kısıtlanmasına yol açabilir. Devam etmek istiyor musunuz?',
+            riskProceed: 'Devam Et',
+            resetConfirmTitle: 'Geçmişi Sıfırla',
+            resetConfirmDesc: 'Son 24 saat içinde çıkarılanların sayısı sıfırlanacak. Devam etmek istiyor musunuz?',
+            resetListConfirm: 'Listedeki <b>{count}</b> kullanıcı silinecek. Onaylıyor musunuz?',
+            statusTop: 'Sayfa başına dönülüyor...',
+            statusScanning: 'Taranıyor...',
+            statusRemoving: 'Çıkarılıyor: {handle}',
+            statusDoneUser: 'İşlem yapıldı',
+            statusWaiting: 'Yeni hesaplar yükleniyor...',
+            statusEnd: 'Sayfa Sonu',
+            statusScrolling: 'Aşağı kaydırılıyor...',
+            statusStopped: 'Durduruldu',
+            statusCompleted: 'Tamamlandı',
+            statusReached: 'Hedefe Ulaşıldı',
+            toastInputCleaned: 'Geçersiz karakterler temizlendi.',
+            toastEnterUsername: 'Kullanıcı adı girin.',
+            toastAlreadyInList: 'Bu kullanıcı zaten listede.',
+            toastUserAdded: '{user} listeye eklendi.',
+            toastUserRemoved: '{user} listeden çıkarıldı.',
+            toastUserNotFound: 'Bu kullanıcı listede bulunamadı.',
+            toastListEmpty: 'Liste boş.',
+            toastListDownloaded: 'Liste indirildi.',
+            toastListCleared: 'Liste sıfırlandı.',
+            toastOnlyTxt: 'Yalnızca .txt dosyası kabul edilir.',
+            toastInvalidFile: 'Geçersiz dosya biçimi.',
+            toastImportSuccess: '{count} kullanıcı eklendi.',
+            toastTargetReached: 'Sınır hesaba ({user}) ulaşıldı.',
+            toastLimitFinished: 'Belirlenen limit ({limit}) tamamlandı.'
+        },
+        en: {
+            settingsTitle: 'Settings',
+            themeColor: 'Theme Color',
+            language: 'Language',
+            showBadges: 'Show "Unfollowed" Badges',
+            statsResetTitle: '24-Hour Counter Memory',
+            resetHistoryBtn: 'Reset History',
+            close: 'Close',
+            skipVerified: 'Skip Verified (Blue Tick)',
+            stopUserLabel: 'Stop at this user (with @)',
+            stopUserTooltip: 'Scans top to bottom. Stops when reaching this username and keeps your older followings safe.',
+            limitLabel: 'Unfollow Limit',
+            speedLabel: 'Process Speed',
+            speedNormal: 'Normal (Safe)',
+            speedFast: 'Fast',
+            speedTurbo: 'Turbo',
+            start: 'Start',
+            stop: 'Stop Process',
+            ready: 'Ready',
+            whitelistTitle: 'Whitelist (Protected)',
+            blacklistTitle: 'Blacklist (Unfollowed)',
+            add: 'Add',
+            remove: 'Remove',
+            upload: 'Upload',
+            download: 'Download',
+            reset: 'Reset',
+            inList: 'In list',
+            badgeText: 'Unfollowed',
+            confirmTitle: 'Confirmation',
+            cancel: 'Cancel',
+            confirm: 'Confirm',
+            modalNotice: 'For uninterrupted operation: <ul style="margin: 8px 0 0 16px; padding: 0;"><li>Stay on the Following page.</li><li>Do not minimize this tab.</li><li>Do not interact with the page while running.</li></ul>',
+            riskTitle: 'Limit Warning',
+            riskNotice: 'Including recent 24-hour activity, you are about to unfollow <b>{count}</b> accounts. The recommended safe limit is usually 200.<br><br>Exceeding this may cause account restriction. Do you want to proceed?',
+            riskProceed: 'Proceed',
+            resetConfirmTitle: 'Reset History',
+            resetConfirmDesc: 'The 24-hour unfollow count will be completely reset. Continue?',
+            resetListConfirm: '<b>{count}</b> users in the list will be deleted. Are you sure?',
+            statusTop: 'Scrolling to top...',
+            statusScanning: 'Scanning...',
+            statusRemoving: 'Unfollowing: {handle}',
+            statusDoneUser: 'Unfollowed',
+            statusWaiting: 'Loading more users...',
+            statusEnd: 'End of Page',
+            statusScrolling: 'Scrolling down...',
+            statusStopped: 'Stopped',
+            statusCompleted: 'Completed',
+            statusReached: 'Target Reached',
+            toastInputCleaned: 'Invalid characters were removed.',
+            toastEnterUsername: 'Enter a username.',
+            toastAlreadyInList: 'This user is already in the list.',
+            toastUserAdded: '{user} added to list.',
+            toastUserRemoved: '{user} removed from list.',
+            toastUserNotFound: 'User not found in list.',
+            toastListEmpty: 'List is empty.',
+            toastListDownloaded: 'List downloaded.',
+            toastListCleared: 'List reset.',
+            toastOnlyTxt: 'Only .txt files are accepted.',
+            toastInvalidFile: 'Invalid file format.',
+            toastImportSuccess: '{count} users added.',
+            toastTargetReached: 'Target user ({user}) reached.',
+            toastLimitFinished: 'Target limit ({limit}) completed.'
+        }
+    };
 
     let isRunning = false;
     let unfollowedCount = 0;
@@ -53,8 +182,18 @@
         limit: 50,
         speed: 'fast',
         theme: 'kiwano',
+        lang: 'tr',
         showBadges: true
     });
+
+    function t(key, params = {}) {
+        const lang = settings.lang || 'tr';
+        let str = (i18n[lang] && i18n[lang][key]) || (i18n.tr && i18n.tr[key]) || key;
+        for (const [k, v] of Object.entries(params)) {
+            str = str.replace(new RegExp(`\\{${k}\\}`, 'g'), v);
+        }
+        return str;
+    }
 
     const themes = {
         kiwano: { primary: '#f59e0b', primaryFg: '#09090b', name: 'Kiwano Altın' },
@@ -65,27 +204,33 @@
     };
 
     function applyTheme() {
-        const t = themes[settings.theme] || themes.kiwano;
-        document.documentElement.style.setProperty('--kiwano-primary', t.primary);
-        document.documentElement.style.setProperty('--kiwano-primary-fg', t.primaryFg);
+        const tObj = themes[settings.theme] || themes.kiwano;
+        document.documentElement.style.setProperty('--kiwano-primary', tObj.primary);
+        document.documentElement.style.setProperty('--kiwano-primary-fg', tObj.primaryFg);
     }
 
     function saveSettings() {
         const skipEl = document.getElementById('kiwano-skip-verified');
         if (!skipEl) return;
         const themeRadio = document.querySelector('input[name="kiwano-theme"]:checked');
+        const langSelect = document.getElementById('kiwano-lang');
+        const oldLang = settings.lang;
         settings = {
             skipVerified: skipEl.checked,
             stopUser: document.getElementById('kiwano-stop-user').value.trim(),
             limit: parseInt(document.getElementById('kiwano-limit').value, 10) || 50,
             speed: document.getElementById('kiwano-speed').value,
             theme: themeRadio ? themeRadio.value : 'kiwano',
+            lang: langSelect ? langSelect.value : 'tr',
             showBadges: document.getElementById('kiwano-show-badges').checked
         };
         localStorage.setItem('kiwano_settings', JSON.stringify(settings));
         applyTheme();
         clearBadgeCache();
         markBlacklistedUsers();
+        if (oldLang !== settings.lang) {
+            renderDynamicTexts();
+        }
     }
 
     const style = document.createElement('style');
@@ -293,6 +438,49 @@
 
     let panelCreated = false;
 
+    function renderDynamicTexts() {
+        if (!panelCreated) return;
+        document.getElementById('kiwano-lbl-settings-title').innerText = t('settingsTitle');
+        document.getElementById('kiwano-lbl-theme-color').innerText = t('themeColor');
+        document.getElementById('kiwano-lbl-language').innerText = t('language');
+        document.getElementById('kiwano-lbl-show-badges').innerText = t('showBadges');
+        document.getElementById('kiwano-lbl-stats-reset').innerText = t('statsResetTitle');
+        document.getElementById('kiwano-reset-stats').innerText = t('resetHistoryBtn');
+        document.getElementById('kiwano-settings-close').innerText = t('close');
+        document.getElementById('kiwano-lbl-skip-verified').innerText = t('skipVerified');
+        document.getElementById('kiwano-lbl-stop-user').innerText = t('stopUserLabel');
+        document.getElementById('kiwano-tooltip-stop-user').innerText = t('stopUserTooltip');
+        document.getElementById('kiwano-lbl-limit').innerText = t('limitLabel');
+        document.getElementById('kiwano-lbl-speed').innerText = t('speedLabel');
+        
+        const speedSelect = document.getElementById('kiwano-speed');
+        speedSelect.options[0].text = t('speedNormal');
+        speedSelect.options[1].text = t('speedFast');
+        speedSelect.options[2].text = t('speedTurbo');
+
+        const startBtn = document.getElementById('kiwano-start-btn');
+        if (!isRunning) startBtn.innerText = t('start');
+        else startBtn.innerText = t('stop');
+
+        document.getElementById('kiwano-title-white').innerText = t('whitelistTitle');
+        document.getElementById('kiwano-title-black').innerText = t('blacklistTitle');
+        document.getElementById('kiwano-add-white').innerText = t('add');
+        document.getElementById('kiwano-remove-white').innerText = t('remove');
+        document.getElementById('kiwano-upload-white').innerText = t('upload');
+        document.getElementById('kiwano-download-white').innerText = t('download');
+        document.getElementById('kiwano-clear-white').innerText = t('reset');
+
+        document.getElementById('kiwano-add-manual').innerText = t('add');
+        document.getElementById('kiwano-remove-manual').innerText = t('remove');
+        document.getElementById('kiwano-upload-btn').innerText = t('upload');
+        document.getElementById('kiwano-download-btn').innerText = t('download');
+        document.getElementById('kiwano-clear-btn').innerText = t('reset');
+
+        updateListUI('white');
+        updateListUI('black');
+        if (!isRunning) updateProgressUI(t('ready'));
+    }
+
     function initPanel() {
         if (!window.location.href.includes('/following')) {
             const existing = document.getElementById('kiwano-bot-panel');
@@ -323,7 +511,7 @@
                     <span class="kiwano-brand-tag">Assistant</span>
                 </div>
                 <div class="kiwano-header-actions">
-                    <button class="kiwano-icon-btn" id="kiwano-settings-btn" title="Ayarlar">
+                    <button class="kiwano-icon-btn" id="kiwano-settings-btn" title="Ayarlar / Settings">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="12" r="3"></circle>
                             <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
@@ -339,21 +527,29 @@
             <div class="kiwano-body">
                 <div class="kiwano-modal-overlay" id="kiwano-confirm-modal">
                     <div class="kiwano-modal-card">
-                        <div class="kiwano-modal-title" id="kiwano-modal-title">İşlem Onayı</div>
+                        <div class="kiwano-modal-title" id="kiwano-modal-title">${t('confirmTitle')}</div>
                         <div class="kiwano-modal-desc" id="kiwano-modal-desc"></div>
                         <div class="kiwano-modal-actions">
-                            <button class="kiwano-modal-btn cancel" id="kiwano-modal-cancel">İptal</button>
-                            <button class="kiwano-modal-btn confirm" id="kiwano-modal-ok">Onayla</button>
+                            <button class="kiwano-modal-btn cancel" id="kiwano-modal-cancel">${t('cancel')}</button>
+                            <button class="kiwano-modal-btn confirm" id="kiwano-modal-ok">${t('confirm')}</button>
                         </div>
                     </div>
                 </div>
 
                 <div class="kiwano-modal-overlay" id="kiwano-settings-modal">
                     <div class="kiwano-modal-card" style="text-align: left;">
-                        <div class="kiwano-modal-title" style="margin-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 8px;">Ayarlar</div>
+                        <div class="kiwano-modal-title" id="kiwano-lbl-settings-title" style="margin-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 8px;">${t('settingsTitle')}</div>
                         
+                        <div class="kiwano-row" style="margin-bottom: 14px;">
+                            <span class="kiwano-label" id="kiwano-lbl-language" style="color: #f4f4f5;">${t('language')}</span>
+                            <select class="kiwano-select" id="kiwano-lang">
+                                <option value="tr" ${settings.lang === 'tr' ? 'selected' : ''}>🇹🇷 Türkçe</option>
+                                <option value="en" ${settings.lang === 'en' ? 'selected' : ''}>🇬🇧 English</option>
+                            </select>
+                        </div>
+
                         <div class="kiwano-row" style="margin-bottom: 16px;">
-                            <span class="kiwano-label" style="color: #f4f4f5;">Tema Rengi</span>
+                            <span class="kiwano-label" id="kiwano-lbl-theme-color" style="color: #f4f4f5;">${t('themeColor')}</span>
                             <div class="kiwano-theme-selector">
                                 <label class="kiwano-theme-dot" style="background: #f59e0b;" title="Kiwano Altın">
                                     <input type="radio" name="kiwano-theme" value="kiwano" ${settings.theme === 'kiwano' ? 'checked' : ''}>
@@ -374,7 +570,7 @@
                         </div>
 
                         <label class="kiwano-switch-row" style="margin-bottom: 16px;">
-                            <span>"Çıkarıldı" Rozetlerini Göster</span>
+                            <span id="kiwano-lbl-show-badges">${t('showBadges')}</span>
                             <div class="kiwano-switch">
                                 <input type="checkbox" id="kiwano-show-badges" ${settings.showBadges ? 'checked' : ''}>
                                 <span class="kiwano-slider"></span>
@@ -382,18 +578,18 @@
                         </label>
 
                         <div class="kiwano-row" style="margin-bottom: 16px;">
-                            <span class="kiwano-label" style="margin-bottom: 4px;">24 Saatlik Sayaç Hafızası</span>
-                            <button class="kiwano-btn-danger" id="kiwano-reset-stats" style="width: 100%;">Geçmişi Sıfırla</button>
+                            <span class="kiwano-label" id="kiwano-lbl-stats-reset" style="margin-bottom: 4px;">${t('statsResetTitle')}</span>
+                            <button class="kiwano-btn-danger" id="kiwano-reset-stats" style="width: 100%;">${t('resetHistoryBtn')}</button>
                         </div>
 
                         <div class="kiwano-modal-actions">
-                            <button class="kiwano-modal-btn cancel" id="kiwano-settings-close" style="width: 100%;">Kapat</button>
+                            <button class="kiwano-modal-btn cancel" id="kiwano-settings-close" style="width: 100%;">${t('close')}</button>
                         </div>
                     </div>
                 </div>
 
                 <label class="kiwano-switch-row">
-                    <span>Mavi Tikli Hesapları Atla</span>
+                    <span id="kiwano-lbl-skip-verified">${t('skipVerified')}</span>
                     <div class="kiwano-switch">
                         <input type="checkbox" id="kiwano-skip-verified" ${settings.skipVerified ? 'checked' : ''}>
                         <span class="kiwano-slider"></span>
@@ -402,14 +598,14 @@
 
                 <div class="kiwano-row">
                     <div class="kiwano-label-info-row">
-                        <span class="kiwano-label">Bu kullanıcıya gelince dur (@ ile)</span>
+                        <span class="kiwano-label" id="kiwano-lbl-stop-user">${t('stopUserLabel')}</span>
                         <span class="kiwano-info-trigger">
                             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line>
                             </svg>
                         </span>
-                        <div class="kiwano-tooltip-box">
-                            Listenin en üstünden aşağı doğru tarar. Bu kullanıcı adını gördüğünde durur ve daha eski takip ettiklerinize dokunmaz.
+                        <div class="kiwano-tooltip-box" id="kiwano-tooltip-stop-user">
+                            ${t('stopUserTooltip')}
                         </div>
                     </div>
                     <input type="text" class="kiwano-input" id="kiwano-stop-user" placeholder="@kullaniciadi" value="${settings.stopUser}">
@@ -417,24 +613,24 @@
 
                 <div class="kiwano-grid-2">
                     <div class="kiwano-row">
-                        <span class="kiwano-label">Çıkarma Limiti</span>
+                        <span class="kiwano-label" id="kiwano-lbl-limit">${t('limitLabel')}</span>
                         <input type="number" class="kiwano-input" id="kiwano-limit" value="${settings.limit}" min="1" max="500">
                     </div>
                     <div class="kiwano-row">
-                        <span class="kiwano-label">İşlem Hızı</span>
+                        <span class="kiwano-label" id="kiwano-lbl-speed">${t('speedLabel')}</span>
                         <select class="kiwano-select" id="kiwano-speed">
-                            <option value="normal" ${settings.speed === 'normal' ? 'selected' : ''}>Normal (Güvenli)</option>
-                            <option value="fast" ${settings.speed === 'fast' ? 'selected' : ''}>Hızlı</option>
-                            <option value="turbo" ${settings.speed === 'turbo' ? 'selected' : ''}>Turbo</option>
+                            <option value="normal" ${settings.speed === 'normal' ? 'selected' : ''}>${t('speedNormal')}</option>
+                            <option value="fast" ${settings.speed === 'fast' ? 'selected' : ''}>${t('speedFast')}</option>
+                            <option value="turbo" ${settings.speed === 'turbo' ? 'selected' : ''}>${t('speedTurbo')}</option>
                         </select>
                     </div>
                 </div>
 
-                <button class="kiwano-btn-primary" id="kiwano-start-btn">Başlat</button>
+                <button class="kiwano-btn-primary" id="kiwano-start-btn">${t('start')}</button>
 
                 <div class="kiwano-progress-wrap">
                     <div class="kiwano-progress-info">
-                        <span id="kiwano-status-state">Hazır</span>
+                        <span id="kiwano-status-state">${t('ready')}</span>
                         <span id="kiwano-status-count">0 / ${settings.limit}</span>
                     </div>
                     <div class="kiwano-progress-bar">
@@ -447,7 +643,7 @@
                 <div class="kiwano-accordion collapsed" id="kiwano-acc-white">
                     <div class="kiwano-accordion-header">
                         <div class="kiwano-label-info-row">
-                            <span class="kiwano-label" style="font-size: 13px; font-weight: 600; color: inherit;">Beyaz Liste (Korunanlar)</span>
+                            <span class="kiwano-label" id="kiwano-title-white" style="font-size: 13px; font-weight: 600; color: inherit;">${t('whitelistTitle')}</span>
                         </div>
                         <svg class="kiwano-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
                             <polyline points="6 9 12 15 18 9"></polyline>
@@ -456,16 +652,16 @@
                     <div class="kiwano-accordion-content">
                         <div class="kiwano-input-group">
                             <input type="text" class="kiwano-input" id="kiwano-white-user" placeholder="@kullaniciadi">
-                            <button class="kiwano-btn-secondary" id="kiwano-add-white">Ekle</button>
-                            <button class="kiwano-btn-danger" id="kiwano-remove-white">Sil</button>
+                            <button class="kiwano-btn-secondary" id="kiwano-add-white">${t('add')}</button>
+                            <button class="kiwano-btn-danger" id="kiwano-remove-white">${t('remove')}</button>
                         </div>
                         <div class="kiwano-footer-row">
-                            <span id="kiwano-whitelist-count" style="font-size: 12px; font-weight: 500; color: #a1a1aa;">Listede: <strong style="color: #f4f4f5;">${whitelist.length}</strong></span>
+                            <span id="kiwano-whitelist-count" style="font-size: 12px; font-weight: 500; color: #a1a1aa;">${t('inList')}: <strong style="color: #f4f4f5;">${whitelist.length}</strong></span>
                             <div class="kiwano-footer-actions">
                                 <input type="file" id="kiwano-file-white" accept=".txt" style="display:none">
-                                <button class="kiwano-btn-secondary" id="kiwano-upload-white">Yükle</button>
-                                <button class="kiwano-btn-secondary" id="kiwano-download-white">İndir</button>
-                                <button class="kiwano-btn-danger" id="kiwano-clear-white">Sıfırla</button>
+                                <button class="kiwano-btn-secondary" id="kiwano-upload-white">${t('upload')}</button>
+                                <button class="kiwano-btn-secondary" id="kiwano-download-white">${t('download')}</button>
+                                <button class="kiwano-btn-danger" id="kiwano-clear-white">${t('reset')}</button>
                             </div>
                         </div>
                     </div>
@@ -474,7 +670,7 @@
                 <div class="kiwano-accordion collapsed" id="kiwano-acc-black">
                     <div class="kiwano-accordion-header">
                         <div class="kiwano-label-info-row">
-                            <span class="kiwano-label" style="font-size: 13px; font-weight: 600; color: inherit;">Kara Liste (Çıkarılanlar)</span>
+                            <span class="kiwano-label" id="kiwano-title-black" style="font-size: 13px; font-weight: 600; color: inherit;">${t('blacklistTitle')}</span>
                         </div>
                         <svg class="kiwano-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
                             <polyline points="6 9 12 15 18 9"></polyline>
@@ -483,16 +679,16 @@
                     <div class="kiwano-accordion-content">
                         <div class="kiwano-input-group">
                             <input type="text" class="kiwano-input" id="kiwano-manual-user" placeholder="@kullaniciadi">
-                            <button class="kiwano-btn-secondary" id="kiwano-add-manual">Ekle</button>
-                            <button class="kiwano-btn-danger" id="kiwano-remove-manual">Sil</button>
+                            <button class="kiwano-btn-secondary" id="kiwano-add-manual">${t('add')}</button>
+                            <button class="kiwano-btn-danger" id="kiwano-remove-manual">${t('remove')}</button>
                         </div>
                         <div class="kiwano-footer-row">
-                            <span id="kiwano-blacklist-count" style="font-size: 12px; font-weight: 500; color: #a1a1aa;">Listede: <strong style="color: #f4f4f5;">${blacklist.length}</strong></span>
+                            <span id="kiwano-blacklist-count" style="font-size: 12px; font-weight: 500; color: #a1a1aa;">${t('inList')}: <strong style="color: #f4f4f5;">${blacklist.length}</strong></span>
                             <div class="kiwano-footer-actions">
                                 <input type="file" id="kiwano-file-input" accept=".txt" style="display:none">
-                                <button class="kiwano-btn-secondary" id="kiwano-upload-btn">Yükle</button>
-                                <button class="kiwano-btn-secondary" id="kiwano-download-btn">İndir</button>
-                                <button class="kiwano-btn-danger" id="kiwano-clear-btn">Sıfırla</button>
+                                <button class="kiwano-btn-secondary" id="kiwano-upload-btn">${t('upload')}</button>
+                                <button class="kiwano-btn-secondary" id="kiwano-download-btn">${t('download')}</button>
+                                <button class="kiwano-btn-danger" id="kiwano-clear-btn">${t('reset')}</button>
                             </div>
                         </div>
                     </div>
@@ -552,7 +748,7 @@
             let cleaned = val.replace(/[^a-zA-Z0-9_@]/g, '');
             if (cleaned !== val) {
                 e.target.value = cleaned;
-                showToast('Geçersiz karakterler temizlendi.', true);
+                showToast(t('toastInputCleaned'), true);
             }
         };
         document.getElementById('kiwano-stop-user').addEventListener('input', handleValidation);
@@ -565,6 +761,7 @@
         document.getElementById('kiwano-settings-btn').addEventListener('click', () => { settingsModal.classList.add('active'); });
         document.getElementById('kiwano-settings-close').addEventListener('click', () => { settingsModal.classList.remove('active'); });
 
+        document.getElementById('kiwano-lang').addEventListener('change', saveSettings);
         document.querySelectorAll('input[name="kiwano-theme"]').forEach(radio => {
             radio.addEventListener('change', saveSettings);
         });
@@ -572,15 +769,15 @@
 
         document.getElementById('kiwano-reset-stats').addEventListener('click', () => {
             showConfirm(
-                'Geçmişi Sıfırla',
-                'Son 24 saat içinde çıkarılanların sayısı sıfırlanacak. Devam etmek istiyor musunuz?',
-                'Sıfırla',
+                t('resetConfirmTitle'),
+                t('resetConfirmDesc'),
+                t('reset'),
                 true,
                 () => {
                     unfollowHistory = [];
                     localStorage.setItem('kiwano_unfollow_history', JSON.stringify([]));
                     settingsModal.classList.remove('active');
-                    showToast('Sayaç sıfırlandı.');
+                    showToast(t('toastListCleared'));
                 }
             );
         });
@@ -595,11 +792,11 @@
         function updateListUI(type) {
             if (type === 'black') {
                 localStorage.setItem('kiwano_blacklist', JSON.stringify(blacklist));
-                document.getElementById('kiwano-blacklist-count').innerHTML = `Listede: <strong style="color: #f4f4f5;">${blacklist.length}</strong>`;
+                document.getElementById('kiwano-blacklist-count').innerHTML = `${t('inList')}: <strong style="color: #f4f4f5;">${blacklist.length}</strong>`;
                 document.getElementById('kiwano-manual-user').value = '';
             } else {
                 localStorage.setItem('kiwano_whitelist', JSON.stringify(whitelist));
-                document.getElementById('kiwano-whitelist-count').innerHTML = `Listede: <strong style="color: #f4f4f5;">${whitelist.length}</strong>`;
+                document.getElementById('kiwano-whitelist-count').innerHTML = `${t('inList')}: <strong style="color: #f4f4f5;">${whitelist.length}</strong>`;
                 document.getElementById('kiwano-white-user').value = '';
             }
         }
@@ -614,32 +811,32 @@
 
         document.getElementById('kiwano-add-white').addEventListener('click', () => {
             let u = document.getElementById('kiwano-white-user').value.trim().toLowerCase();
-            if (!u) return showToast('Kullanıcı adı girin.', true);
+            if (!u) return showToast(t('toastEnterUsername'), true);
             if (!u.startsWith('@')) u = '@' + u;
             if (!whitelist.includes(u)) {
                 whitelist.push(u);
                 updateListUI('white');
-                showToast(`${u} listeye eklendi.`);
+                showToast(t('toastUserAdded', { user: u }));
             } else {
-                showToast('Bu kullanıcı zaten listede.', true);
+                showToast(t('toastAlreadyInList'), true);
             }
         });
 
         document.getElementById('kiwano-remove-white').addEventListener('click', () => {
             let u = document.getElementById('kiwano-white-user').value.trim().toLowerCase();
-            if (!u) return showToast('Kullanıcı adı girin.', true);
+            if (!u) return showToast(t('toastEnterUsername'), true);
             if (!u.startsWith('@')) u = '@' + u;
             if (whitelist.includes(u)) {
                 whitelist = whitelist.filter(item => item !== u);
                 updateListUI('white');
-                showToast(`${u} listeden çıkarıldı.`);
+                showToast(t('toastUserRemoved', { user: u }));
             } else {
-                showToast('Bu kullanıcı listede bulunamadı.', true);
+                showToast(t('toastUserNotFound'), true);
             }
         });
 
         document.getElementById('kiwano-download-white').addEventListener('click', () => {
-            if (whitelist.length === 0) return showToast('Beyaz liste boş.', true);
+            if (whitelist.length === 0) return showToast(t('toastListEmpty'), true);
             const fileContent = [FILE_HEADER_WL, ...whitelist].join('\n');
             const blob = new Blob([fileContent], { type: 'text/plain;charset=utf-8' });
             const a = document.createElement('a');
@@ -648,7 +845,7 @@
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
-            showToast('Beyaz liste indirildi.');
+            showToast(t('toastListDownloaded'));
         });
 
         const fileWhite = document.getElementById('kiwano-file-white');
@@ -656,7 +853,7 @@
         fileWhite.addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (!file || !file.name.endsWith('.txt')) {
-                showToast('Yalnızca .txt dosyası kabul edilir.', true);
+                showToast(t('toastOnlyTxt'), true);
                 fileWhite.value = '';
                 return;
             }
@@ -664,7 +861,7 @@
             reader.onload = (ev) => {
                 const lines = ev.target.result.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
                 if (lines.length === 0 || (lines[0] !== FILE_HEADER_WL && lines[0] !== LEGACY_HEADER_WL)) {
-                    showToast('Geçersiz dosya biçimi.', true);
+                    showToast(t('toastInvalidFile'), true);
                     fileWhite.value = '';
                     return;
                 }
@@ -678,7 +875,7 @@
                     }
                 });
                 updateListUI('white');
-                showToast(`${addedCount} kullanıcı eklendi.`);
+                showToast(t('toastImportSuccess', { count: addedCount }));
                 fileWhite.value = '';
             };
             reader.readAsText(file);
@@ -687,36 +884,36 @@
         document.getElementById('kiwano-clear-white').addEventListener('click', () => {
             if (whitelist.length === 0) return;
             showConfirm(
-                'Beyaz Listeyi Sıfırla',
-                `Listedeki <b>${whitelist.length}</b> kullanıcı silinecek. Onaylıyor musunuz?`,
-                'Sıfırla',
+                t('resetConfirmTitle'),
+                t('resetListConfirm', { count: whitelist.length }),
+                t('reset'),
                 true,
                 () => {
                     whitelist = [];
                     updateListUI('white');
-                    showToast('Beyaz liste sıfırlandı.');
+                    showToast(t('toastListCleared'));
                 }
             );
         });
 
         document.getElementById('kiwano-add-manual').addEventListener('click', () => {
             let u = document.getElementById('kiwano-manual-user').value.trim().toLowerCase();
-            if (!u) return showToast('Kullanıcı adı girin.', true);
+            if (!u) return showToast(t('toastEnterUsername'), true);
             if (!u.startsWith('@')) u = '@' + u;
             if (!blacklist.includes(u)) {
                 blacklist.push(u);
                 updateListUI('black');
                 clearBadgeCache();
                 markBlacklistedUsers();
-                showToast(`${u} kara listeye eklendi.`);
+                showToast(t('toastUserAdded', { user: u }));
             } else {
-                showToast('Bu kullanıcı zaten listede.', true);
+                showToast(t('toastAlreadyInList'), true);
             }
         });
 
         document.getElementById('kiwano-remove-manual').addEventListener('click', () => {
             let u = document.getElementById('kiwano-manual-user').value.trim().toLowerCase();
-            if (!u) return showToast('Kullanıcı adı girin.', true);
+            if (!u) return showToast(t('toastEnterUsername'), true);
             if (!u.startsWith('@')) u = '@' + u;
             if (blacklist.includes(u)) {
                 blacklist = blacklist.filter(item => item !== u);
@@ -725,14 +922,14 @@
                 document.querySelectorAll('.kiwano-badge').forEach(b => {
                     if (b.parentElement && b.parentElement.innerText.toLowerCase().includes(u)) b.remove();
                 });
-                showToast(`${u} listeden çıkarıldı.`);
+                showToast(t('toastUserRemoved', { user: u }));
             } else {
-                showToast('Bu kullanıcı listede bulunamadı.', true);
+                showToast(t('toastUserNotFound'), true);
             }
         });
 
         document.getElementById('kiwano-download-btn').addEventListener('click', () => {
-            if (blacklist.length === 0) return showToast('Kara liste boş.', true);
+            if (blacklist.length === 0) return showToast(t('toastListEmpty'), true);
             const fileContent = [FILE_HEADER_BL, ...blacklist].join('\n');
             const blob = new Blob([fileContent], { type: 'text/plain;charset=utf-8' });
             const a = document.createElement('a');
@@ -741,7 +938,7 @@
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
-            showToast('Kara liste indirildi.');
+            showToast(t('toastListDownloaded'));
         });
 
         const fileInput = document.getElementById('kiwano-file-input');
@@ -749,7 +946,7 @@
         fileInput.addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (!file || !file.name.endsWith('.txt')) {
-                showToast('Yalnızca .txt dosyası kabul edilir.', true);
+                showToast(t('toastOnlyTxt'), true);
                 fileInput.value = '';
                 return;
             }
@@ -757,7 +954,7 @@
             reader.onload = (ev) => {
                 const lines = ev.target.result.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
                 if (lines.length === 0 || (lines[0] !== FILE_HEADER_BL && lines[0] !== LEGACY_HEADER_BL)) {
-                    showToast('Geçersiz dosya biçimi.', true);
+                    showToast(t('toastInvalidFile'), true);
                     fileInput.value = '';
                     return;
                 }
@@ -773,7 +970,7 @@
                 updateListUI('black');
                 clearBadgeCache();
                 markBlacklistedUsers();
-                showToast(`${addedCount} kullanıcı eklendi.`);
+                showToast(t('toastImportSuccess', { count: addedCount }));
                 fileInput.value = '';
             };
             reader.readAsText(file);
@@ -782,16 +979,16 @@
         document.getElementById('kiwano-clear-btn').addEventListener('click', () => {
             if (blacklist.length === 0) return;
             showConfirm(
-                'Kara Listeyi Sıfırla',
-                `Listedeki <b>${blacklist.length}</b> kullanıcı silinecek. Onaylıyor musunuz?`,
-                'Sıfırla',
+                t('resetConfirmTitle'),
+                t('resetListConfirm', { count: blacklist.length }),
+                t('reset'),
                 true,
                 () => {
                     blacklist = [];
                     updateListUI('black');
                     clearBadgeCache();
                     document.querySelectorAll('.kiwano-badge').forEach(b => b.remove());
-                    showToast('Kara liste sıfırlandı.');
+                    showToast(t('toastListCleared'));
                 }
             );
         });
@@ -800,7 +997,7 @@
 
         startBtn.addEventListener('click', () => {
             if (isRunning) {
-                stopBotUI('Durduruldu');
+                stopBotUI(t('statusStopped'));
             } else {
                 cleanOldHistory();
                 const limit = parseInt(document.getElementById('kiwano-limit').value, 10) || 50;
@@ -809,22 +1006,17 @@
 
                 if (isRisky) {
                     showConfirm(
-                        'Limit Uyarısı',
-                        `Son 24 saat içindeki işlemlerle birlikte toplam <b>${projectedTotal}</b> hesabı takipten çıkarmak üzeresiniz. Günlük önerilen güvenli sınır genellikle 200'dür.<br><br>Bu sınırı aşmak hesabınızın kısıtlanmasına yol açabilir. Devam etmek istiyor musunuz?`,
-                        'Devam Et',
+                        t('riskTitle'),
+                        t('riskNotice', { count: projectedTotal }),
+                        t('riskProceed'),
                         true,
                         startBotProcess
                     );
                 } else {
                     showConfirm(
-                        'İşlem Başlatılıyor',
-                        `İşlemin kesintisiz sürmesi için:
-                        <ul style="margin: 8px 0 0 16px; padding: 0;">
-                            <li>Takip Edilenler sayfasında kalın.</li>
-                            <li>Sekmeyi simge durumuna küçültmeyin.</li>
-                            <li>İşlem bitene kadar sayfada gezinmeyin.</li>
-                        </ul>`,
-                        'Başlat',
+                        t('confirmTitle'),
+                        t('modalNotice'),
+                        t('start'),
                         false,
                         startBotProcess
                     );
@@ -836,17 +1028,17 @@
             unfollowedCount = 0;
             isRunning = true;
             saveSettings();
-            updateProgressUI('Başlatılıyor...');
-            startBtn.innerText = 'İşlemi Durdur';
+            updateProgressUI(t('statusScanning'));
+            startBtn.innerText = t('stop');
             startBtn.classList.add('stop');
             runBot();
         }
 
-        function stopBotUI(reason = 'Hazır') {
+        function stopBotUI(reason = null) {
             isRunning = false;
-            startBtn.innerText = 'Başlat';
+            startBtn.innerText = t('start');
             startBtn.classList.remove('stop');
-            updateProgressUI(reason);
+            updateProgressUI(reason || t('ready'));
         }
 
         async function runBot() {
@@ -862,7 +1054,7 @@
                 turbo: { scroll: 60, waitAfter: 350, rand: 150, pageScroll: 600 }
             }[speedMode] || { scroll: 120, waitAfter: 750, rand: 400, pageScroll: 900 };
 
-            updateProgressUI('Sayfa başına dönülüyor...');
+            updateProgressUI(t('statusTop'));
             window.scrollTo({ top: 0, behavior: 'smooth' });
             await sleep(800);
             window.scrollTo(0, 0);
@@ -872,7 +1064,7 @@
             let consecutiveEmptyScrolls = 0;
 
             while (isRunning && unfollowedCount < limit) {
-                updateProgressUI('Taranıyor...');
+                updateProgressUI(t('statusScanning'));
                 const users = document.querySelectorAll('[data-testid="UserCell"]');
                 let foundAction = false;
 
@@ -885,8 +1077,8 @@
                     if (!handle || processedInSession.has(handle)) continue;
 
                     if (stopUserRaw && handle === stopUserRaw) {
-                        showToast(`Sınır hesaba (${stopUserRaw}) ulaşıldı.`);
-                        stopBotUI('Hedefe Ulaşıldı');
+                        showToast(t('toastTargetReached', { user: stopUserRaw }));
+                        stopBotUI(t('statusReached'));
                         return;
                     }
 
@@ -908,7 +1100,7 @@
 
                     const unfollowBtn = user.querySelector('[data-testid$="-unfollow"]');
                     if (unfollowBtn) {
-                        updateProgressUI(`Çıkarılıyor: ${handle}`);
+                        updateProgressUI(t('statusRemoving', { handle }));
                         unfollowBtn.scrollIntoView({ behavior: 'auto', block: 'center' });
                         await sleep(delays.scroll);
                         unfollowBtn.click();
@@ -923,7 +1115,7 @@
                             unfollowHistory.push(Date.now());
                             cleanOldHistory();
 
-                            updateProgressUI('İşlem yapıldı');
+                            updateProgressUI(t('statusDoneUser'));
                             foundAction = true;
 
                             if (!blacklist.includes(handle)) {
@@ -944,24 +1136,24 @@
                 }
 
                 if (unfollowedCount >= limit) {
-                    showToast(`Belirlenen limit (${limit}) tamamlandı.`);
-                    stopBotUI('Tamamlandı');
+                    showToast(t('toastLimitFinished', { limit }));
+                    stopBotUI(t('statusCompleted'));
                     break;
                 }
 
                 if (!foundAction && isRunning) {
                     consecutiveEmptyScrolls++;
                     if (consecutiveEmptyScrolls > 6) {
-                        updateProgressUI('Yeni hesaplar yükleniyor...');
+                        updateProgressUI(t('statusWaiting'));
                         await sleep(1800);
                     }
                     if (consecutiveEmptyScrolls > 12) {
-                        showToast('Sayfa sonuna gelindi veya yeni veri alınamadı.', true);
-                        stopBotUI('Sayfa Sonu');
+                        showToast(t('statusEnd'), true);
+                        stopBotUI(t('statusEnd'));
                         break;
                     }
 
-                    updateProgressUI('Aşağı kaydırılıyor...');
+                    updateProgressUI(t('statusScrolling'));
                     window.scrollBy({ top: window.innerHeight * 0.85, behavior: 'smooth' });
                     await sleep(delays.pageScroll);
                 } else if (foundAction) {
@@ -1000,7 +1192,7 @@
                             if (parent && !parent.querySelector('.kiwano-badge')) {
                                 const badge = document.createElement('span');
                                 badge.className = 'kiwano-badge';
-                                badge.textContent = 'Çıkarıldı';
+                                badge.textContent = t('badgeText');
                                 parent.appendChild(badge);
                             }
                             break;

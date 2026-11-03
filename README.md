@@ -1,3 +1,7 @@
+<p align="right">
+  <b>🇹🇷 Türkçe</b> | <a href="README.en.md">🇬🇧 English</a>
+</p>
+
 # Kiwano • X Unfollow Assistant
 
 X (Twitter) üzerinde sizi geri takip etmeyen hesapları toplu ve kontrollü bir şekilde takipten çıkarmanızı sağlayan kullanıcı betiği.
@@ -15,6 +19,7 @@ X (Twitter) üzerinde sizi geri takip etmeyen hesapları toplu ve kontrollü bir
 
 ## Özellikler
 
+- **Çift Dil Desteği:** Panel arayüzünü Türkçe (🇹🇷) veya İngilizce (🇬🇧) olarak kullanabilirsiniz.
 - **Geri Takip Filtresi:** X arayüz dili fark etmeksizin sizi geri takip eden kişileri tespit eder ve işlem dışında tutar.
 - **24 Saatlik Sayaç Kontrolü:** Gün içinde çıkarılan hesap sayısını tarayıcı hafızasında tutar, 200 sınırına yaklaşıldığında uyarı vererek hesap kısıtlaması riskini azaltır.
 - **Onaylı Hesap Koruması:** Mavi tikli hesapları işlem dışında tutabilirsiniz.
@@ -59,6 +64,7 @@ Tarayıcınıza uygun uzantıyı kurun:
 
 | Seçenek | İşlev |
 | :--- | :--- |
+| **Arayüz Dili** | Paneli Türkçe veya İngilizce olarak kullanmanızı sağlar. |
 | **Mavi Tikli Hesapları Atla** | Onaylı hesapları işlem dışında bırakır. |
 | **Bu kullanıcıya gelince dur** | Girilen kullanıcı adına ulaşıldığında işlemi otomatik sonlandırır. |
 | **Çıkarma Limiti** | Tek seferde takipten çıkarılacak maksimum kişi sayısı. |
