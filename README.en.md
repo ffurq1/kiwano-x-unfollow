@@ -44,7 +44,7 @@ Click [kiwano-x-unfollow.user.js](https://raw.githubusercontent.com/furkvn7/kiwa
 
 **Method B (Manual Install):**
 1. Click the Tampermonkey icon and choose **Create a new script**.
-2. Copy and paste the contents of [`script.js`](./script.js) into the editor.
+2. Copy and paste the contents of [`kiwano-x-unfollow.user.js`](./kiwano-x-unfollow.user.js) into the editor.
 3. Save with `Ctrl + S` (`Cmd + S` on macOS).
 
 ---
@@ -83,3 +83,4 @@ This tool is intended for personal account organization. Twitter / X policies re
 ## License
 
 This project is licensed under the [MIT License](./LICENSE).
+

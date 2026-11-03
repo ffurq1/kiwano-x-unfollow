@@ -44,7 +44,7 @@ Tarayıcınıza uygun uzantıyı kurun:
 
 **Yöntem B (Manuel Kurulum):**
 1. Tampermonkey menüsünden **Yeni betik ekle** seçeneğini açın.
-2. [`script.js`](./script.js) dosyasındaki kodları editöre yapıştırın.
+2. [`kiwano-x-unfollow.user.js`](./kiwano-x-unfollow.user.js) dosyasındaki kodları editöre yapıştırın.
 3. `Ctrl + S` (macOS için `Cmd + S`) kısayolu ile kaydedin.
 
 ---
