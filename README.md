@@ -39,7 +39,7 @@ Tarayıcınıza uygun Tampermonkey uzantısını kurun:
 
 ### 2. Betiği Yükleyin
 En kolay yol:
-1. Tarayıcınızda [kiwano-x-unfollow.user.js](https://raw.githubusercontent.com/furkvn/kiwano-x-unfollow/main/kiwano-x-unfollow.user.js) bağlantısına tıklayın.
+1. Tarayıcınızda [kiwano-x-unfollow.user.js](https://raw.githubusercontent.com/furkvn7/kiwano-x-unfollow/main/kiwano-x-unfollow.user.js) bağlantısına tıklayın.
 2. Açılan Tampermonkey ekranında **"Kur" (Install)** butonuna basın.
 
 *Alternatif Manuel Kurulum:*
