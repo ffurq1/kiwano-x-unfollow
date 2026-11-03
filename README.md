@@ -2,9 +2,15 @@
   <b>🇹🇷 Türkçe</b> | <a href="README.en.md">🇬🇧 English</a>
 </p>
 
-# Kiwano • X Unfollow Assistant
+<p align="center">
+  <img src="kiwanoLogo.png" alt="Kiwano Logo" width="110" />
+</p>
 
-X (Twitter) üzerinde sizi geri takip etmeyen hesapları toplu ve kontrollü bir şekilde takipten çıkarmanızı sağlayan kullanıcı betiği.
+<h1 align="center">Kiwano • X Unfollow Assistant</h1>
+
+<p align="center">
+  X (Twitter) üzerinde sizi geri takip etmeyen hesapları toplu ve kontrollü bir şekilde takipten çıkarmanızı sağlayan kullanıcı betiği.
+</p>
 
 ## İçindekiler
 

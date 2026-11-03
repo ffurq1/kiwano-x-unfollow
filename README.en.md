@@ -2,9 +2,15 @@
   <a href="README.md">🇹🇷 Türkçe</a> | <b>🇬🇧 English</b>
 </p>
 
-# Kiwano • X Unfollow Assistant
+<p align="center">
+  <img src="kiwanoLogo.png" alt="Kiwano Logo" width="110" />
+</p>
 
-A lightweight userscript designed to safely detect and unfollow non-followers on X (Twitter).
+<h1 align="center">Kiwano • X Unfollow Assistant</h1>
+
+<p align="center">
+  A lightweight userscript designed to safely detect and unfollow non-followers on X (Twitter).
+</p>
 
 ## Table of Contents
 

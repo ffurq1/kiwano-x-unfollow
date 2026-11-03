@@ -6,7 +6,7 @@
 // @author       furkvn7
 // @match        https://x.com/*
 // @match        https://twitter.com/*
-// @icon         https://abs.twimg.com/favicons/twitter.3.ico
+// @icon         https://raw.githubusercontent.com/furkvn7/kiwano-x-unfollow/main/kiwanoLogo.png
 // @license      MIT
 // @grant        none
 // ==/UserScript==
@@ -502,11 +502,7 @@
         panel.innerHTML = `
             <div class="kiwano-header">
                 <div class="kiwano-title">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--kiwano-primary)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="9"/>
-                        <path d="M12 3v3M12 18v3M3 12h3M18 12h3"/>
-                        <circle cx="12" cy="2.5" fill="var(--kiwano-primary)"/>
-                    </svg>
+                    <img src="https://raw.githubusercontent.com/furkvn7/kiwano-x-unfollow/main/kiwanoLogo.png" width="18" height="18" style="border-radius: 4px; object-fit: contain; vertical-align: middle;" onerror="this.style.display='none'" alt="Kiwano" />
                     <span>Kiwano</span>
                     <span class="kiwano-brand-tag">Assistant</span>
                 </div>
