@@ -46,7 +46,7 @@ Install the Tampermonkey extension for your preferred browser:
 ### 2. Install the Script
 
 **Method A (Direct 1-Click Install):**
-Click [kiwano-x-unfollow.user.js](https://raw.githubusercontent.com/furkvn7/kiwano-x-unfollow/main/kiwano-x-unfollow.user.js). When the Tampermonkey prompt appears, click **Install**.
+Click [kiwano-x-unfollow.user.js](https://raw.githubusercontent.com/ffurq1/kiwano-x-unfollow/main/kiwano-x-unfollow.user.js). When the Tampermonkey prompt appears, click **Install**.
 
 **Method B (Manual Install):**
 1. Click the Tampermonkey icon and choose **Create a new script**.

@@ -46,7 +46,7 @@ Tarayıcınıza uygun uzantıyı kurun:
 ### 2. Betiğin Yüklenmesi
 
 **Yöntem A (Doğrudan Kurulum):**
-[kiwano-x-unfollow.user.js](https://raw.githubusercontent.com/furkvn7/kiwano-x-unfollow/main/kiwano-x-unfollow.user.js) bağlantısına tıklayın. Tampermonkey ekranı açıldığında **Kur (Install)** butonuna basın.
+[kiwano-x-unfollow.user.js](https://raw.githubusercontent.com/ffurq1/kiwano-x-unfollow/main/kiwano-x-unfollow.user.js) bağlantısına tıklayın. Tampermonkey ekranı açıldığında **Kur (Install)** butonuna basın.
 
 **Yöntem B (Manuel Kurulum):**
 1. Tampermonkey menüsünden **Yeni betik ekle** seçeneğini açın.

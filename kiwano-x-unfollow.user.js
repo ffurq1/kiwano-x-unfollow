@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name         Kiwano - X Unfollow Assistant
-// @namespace    https://github.com/furkvn7/kiwano-x-unfollow
-// @version      1.1.0
+// @namespace    https://github.com/ffurq1/kiwano-x-unfollow
+// @version      1.0.0
 // @description  X (Twitter) üzerinde sizi geri takip etmeyen hesapları güvenli şekilde takipten çıkarmanızı sağlayan kullanıcı betiği.
-// @author       furkvn7
+// @author       ffurq1
 // @match        https://x.com/*
 // @match        https://twitter.com/*
-// @icon         https://raw.githubusercontent.com/furkvn7/kiwano-x-unfollow/main/kiwanoLogo.png
+// @icon         https://raw.githubusercontent.com/ffurq1/kiwano-x-unfollow/main/kiwanoLogo.png
 // @license      MIT
 // @grant        none
 // ==/UserScript==
@@ -248,7 +248,7 @@
             overflow: hidden; transition: width 0.2s ease, transform 0.2s ease; user-select: none; box-sizing: border-box;
         }
         #kiwano-bot-panel *, #kiwano-bot-panel *::before, #kiwano-bot-panel *::after { box-sizing: border-box; }
-        #kiwano-bot-panel.minimized { width: 230px; border-radius: 12px; }
+        #kiwano-bot-panel.minimized { width: 265px; border-radius: 12px; }
         #kiwano-bot-panel.minimized .kiwano-body { display: none; }
         #kiwano-bot-panel.minimized .kiwano-header { border-bottom: none; padding: 12px 16px; }
         
@@ -257,11 +257,7 @@
             color: #f4f4f5; background: rgba(255, 255, 255, 0.02); display: flex;
             justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
-        .kiwano-title { display: flex; align-items: center; gap: 8px; }
-        .kiwano-brand-tag {
-            font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
-            padding: 1px 6px; border-radius: 4px; background: rgba(245, 158, 11, 0.15); color: var(--kiwano-primary);
-        }
+        .kiwano-title { display: flex; align-items: center; gap: 8px; white-space: nowrap; }
         .kiwano-header-actions { display: flex; align-items: center; gap: 6px; }
         .kiwano-icon-btn {
             background: transparent; border: 1px solid transparent; color: #a1a1aa;
@@ -452,7 +448,7 @@
         document.getElementById('kiwano-tooltip-stop-user').innerText = t('stopUserTooltip');
         document.getElementById('kiwano-lbl-limit').innerText = t('limitLabel');
         document.getElementById('kiwano-lbl-speed').innerText = t('speedLabel');
-        
+
         const speedSelect = document.getElementById('kiwano-speed');
         speedSelect.options[0].text = t('speedNormal');
         speedSelect.options[1].text = t('speedFast');
@@ -502,9 +498,7 @@
         panel.innerHTML = `
             <div class="kiwano-header">
                 <div class="kiwano-title">
-                    <img src="https://raw.githubusercontent.com/furkvn7/kiwano-x-unfollow/main/kiwanoLogo.png" width="18" height="18" style="border-radius: 4px; object-fit: contain; vertical-align: middle;" onerror="this.style.display='none'" alt="Kiwano" />
-                    <span>Kiwano</span>
-                    <span class="kiwano-brand-tag">Assistant</span>
+                    <span>Kiwano Unfollow Assistant</span>
                 </div>
                 <div class="kiwano-header-actions">
                     <button class="kiwano-icon-btn" id="kiwano-settings-btn" title="Ayarlar / Settings">
